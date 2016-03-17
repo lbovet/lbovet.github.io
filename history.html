@@ -1,0 +1,563 @@
+
+<!DOCTYPE HTML>
+<html>
+<head>
+  <title>Timeline | Group example</title>
+
+  <style>
+    body, html {
+      font-family: arial, sans-serif;
+      font-size: 11pt;
+    }
+
+    #visualization {
+      box-sizing: border-box;
+      width: 100%;
+      height: 300px;
+    }
+  </style>
+
+  <!-- note: moment.js must be loaded before vis.js, else vis.js uses its embedded version of moment.js -->
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/moment.js/2.8.4/moment.min.js"></script>
+
+  <script src="http://visjs.org/dist/vis.js"></script>
+  <link href="http://visjs.org/dist/vis.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+<div id="visualization"></div>
+
+<script>
+  var now = moment().minutes(0).seconds(0).milliseconds(0);
+  var groupCount = 4;
+  var itemCount = 20;
+
+  var data =
+  [
+    {
+      "date": "2013-02-14",
+      "author": "bovetl",
+      "lines": 2090,
+      "dirs": [
+        "storage",
+        "routing",
+        "http",
+        "authorization",
+        "queuing",
+        "packing",
+        "user"
+      ]
+    },
+    {
+      "date": "2013-05-23",
+      "author": "josttho",
+      "lines": 21,
+      "dirs": []
+    },
+    {
+      "date": "2013-05-30",
+      "author": "bovetl",
+      "lines": 924,
+      "dirs": []
+    },
+    {
+      "date": "2013-07-16",
+      "author": "webermarca",
+      "lines": 19,
+      "dirs": []
+    },
+    {
+      "date": "2013-07-22",
+      "author": "bovetl",
+      "lines": 81,
+      "dirs": []
+    },
+    {
+      "date": "2013-08-05",
+      "author": "webermarca",
+      "lines": 797,
+      "dirs": [
+        "duplicate",
+        "logging"
+      ]
+    },
+    {
+      "date": "2013-10-10",
+      "author": "ruosss",
+      "lines": 357,
+      "dirs": []
+    },
+    {
+      "date": "2013-10-24",
+      "author": "erbslandd",
+      "lines": 6,
+      "dirs": []
+    },
+    {
+      "date": "2013-10-29",
+      "author": "bovetl",
+      "lines": 2,
+      "dirs": []
+    },
+    {
+      "date": "2013-11-21",
+      "author": "ruosss",
+      "lines": 725,
+      "dirs": []
+    },
+    {
+      "date": "2014-01-13",
+      "author": "webermarca",
+      "lines": 51,
+      "dirs": [
+        "cors"
+      ]
+    },
+    {
+      "date": "2014-01-16",
+      "author": "bovetl",
+      "lines": 1234,
+      "dirs": [
+        "expansion",
+        "delta",
+        "util"
+      ]
+    },
+    {
+      "date": "2014-01-22",
+      "author": "ruosss",
+      "lines": 7,
+      "dirs": []
+    },
+    {
+      "date": "2014-01-28",
+      "author": "webermarca",
+      "lines": 1,
+      "dirs": []
+    },
+    {
+      "date": "2014-02-11",
+      "author": "ruosss",
+      "lines": 6,
+      "dirs": []
+    },
+    {
+      "date": "2014-02-17",
+      "author": "kammermannf",
+      "lines": 12,
+      "dirs": []
+    },
+    {
+      "date": "2014-02-20",
+      "author": "bovetl",
+      "lines": 467,
+      "dirs": []
+    },
+    {
+      "date": "2014-02-24",
+      "author": "kammermannf",
+      "lines": 343,
+      "dirs": []
+    },
+    {
+      "date": "2014-03-03",
+      "author": "bovetl",
+      "lines": 31,
+      "dirs": []
+    },
+    {
+      "date": "2014-03-05",
+      "author": "bovetl",
+      "lines": 228,
+      "dirs": [
+        "validation"
+      ]
+    },
+    {
+      "date": "2014-03-10",
+      "author": "bovetl",
+      "lines": 7,
+      "dirs": []
+    },
+    {
+      "date": "2014-03-19",
+      "author": "webermarca",
+      "lines": 60,
+      "dirs": []
+    },
+    {
+      "date": "2014-03-25",
+      "author": "kammermannf",
+      "lines": 148,
+      "dirs": []
+    },
+    {
+      "date": "2014-05-07",
+      "author": "bovetl",
+      "lines": 1,
+      "dirs": []
+    },
+    {
+      "date": "2014-05-14",
+      "author": "kammermannf",
+      "lines": 135,
+      "dirs": [
+        "control"
+      ]
+    },
+    {
+      "date": "2014-07-10",
+      "author": "bovetl",
+      "lines": 181,
+      "dirs": []
+    },
+    {
+      "date": "2014-08-25",
+      "author": "webermarca",
+      "lines": 629,
+      "dirs": [
+        "monitoring"
+      ]
+    },
+    {
+      "date": "2014-09-03",
+      "author": "bovetl",
+      "lines": 17,
+      "dirs": []
+    },
+    {
+      "date": "2014-09-04",
+      "author": "kammermannf",
+      "lines": 139,
+      "dirs": []
+    },
+    {
+      "date": "2014-09-11",
+      "author": "bovetl",
+      "lines": 346,
+      "dirs": []
+    },
+    {
+      "date": "2014-09-17",
+      "author": "webermarca",
+      "lines": 7,
+      "dirs": []
+    },
+    {
+      "date": "2014-09-18",
+      "author": "bovetl",
+      "lines": 315,
+      "dirs": []
+    },
+    {
+      "date": "2014-09-25",
+      "author": "bovetl",
+      "lines": 479,
+      "dirs": [
+        "scheduler"
+      ]
+    },
+    {
+      "date": "2014-09-29",
+      "author": "kammermannf",
+      "lines": 58,
+      "dirs": []
+    },
+    {
+      "date": "2014-09-30",
+      "author": "bovetl",
+      "lines": 84,
+      "dirs": []
+    },
+    {
+      "date": "2014-10-08",
+      "author": "webermarca",
+      "lines": 75,
+      "dirs": []
+    },
+    {
+      "date": "2014-10-27",
+      "author": "kammermannf",
+      "lines": 8,
+      "dirs": []
+    },
+    {
+      "date": "2014-11-10",
+      "author": "bovetl",
+      "lines": 11,
+      "dirs": []
+    },
+    {
+      "date": "2014-12-04",
+      "author": "webermarca",
+      "lines": 115,
+      "dirs": []
+    },
+    {
+      "date": "2014-12-15",
+      "author": "bovetl",
+      "lines": 6477,
+      "dirs": [
+        "core",
+        "queue",
+        "security",
+        "json",
+        "."
+      ]
+    },
+    {
+      "date": "2015-01-08",
+      "author": "ljucam",
+      "lines": 104,
+      "dirs": []
+    },
+    {
+      "date": "2015-01-15",
+      "author": "bovetl",
+      "lines": 1415,
+      "dirs": [
+        "hook"
+      ]
+    },
+    {
+      "date": "2015-01-16",
+      "author": "kammermannf",
+      "lines": 9,
+      "dirs": []
+    },
+    {
+      "date": "2015-01-21",
+      "author": "webermarca",
+      "lines": 402,
+      "dirs": []
+    },
+    {
+      "date": "2015-01-26",
+      "author": "bovetl",
+      "lines": 2193,
+      "dirs": [
+        "expiry"
+      ]
+    },
+    {
+      "date": "2015-01-27",
+      "author": "bovetl",
+      "lines": 477,
+      "dirs": []
+    },
+    {
+      "date": "2015-01-29",
+      "author": "webermarca",
+      "lines": 48,
+      "dirs": []
+    },
+    {
+      "date": "2015-02-04",
+      "author": "ljucam",
+      "lines": 5,
+      "dirs": []
+    },
+    {
+      "date": "2015-02-10",
+      "author": "josttho",
+      "lines": 74,
+      "dirs": []
+    },
+    {
+      "date": "2015-02-11",
+      "author": "bovetl",
+      "lines": 57,
+      "dirs": []
+    },
+    {
+      "date": "2015-02-12",
+      "author": "bovetl",
+      "lines": 40,
+      "dirs": []
+    },
+    {
+      "date": "2015-02-16",
+      "author": "bovetl",
+      "lines": 1338,
+      "dirs": []
+    },
+    {
+      "date": "2015-02-20",
+      "author": "bovetl",
+      "lines": 3,
+      "dirs": []
+    },
+    {
+      "date": "2015-02-24",
+      "author": "webermarca",
+      "lines": 128,
+      "dirs": []
+    },
+    {
+      "date": "2015-02-25",
+      "author": "ljucam",
+      "lines": 1327,
+      "dirs": []
+    },
+    {
+      "date": "2015-03-02",
+      "author": "bovetl",
+      "lines": 25,
+      "dirs": []
+    },
+    {
+      "date": "2015-03-04",
+      "author": "bovetl",
+      "lines": 1,
+      "dirs": []
+    },
+    {
+      "date": "2015-03-09",
+      "author": "ljucam",
+      "lines": 17,
+      "dirs": []
+    },
+    {
+      "date": "2015-03-10",
+      "author": "bovetl",
+      "lines": 243,
+      "dirs": []
+    },
+    {
+      "date": "2015-03-18",
+      "author": "webermarca",
+      "lines": 42,
+      "dirs": []
+    },
+    {
+      "date": "2015-03-25",
+      "author": "ljucam",
+      "lines": 125,
+      "dirs": []
+    },
+    {
+      "date": "2015-04-09",
+      "author": "bovetl",
+      "lines": 68,
+      "dirs": []
+    },
+    {
+      "date": "2015-04-10",
+      "author": "kammermannf",
+      "lines": 50,
+      "dirs": []
+    },
+    {
+      "date": "2015-04-13",
+      "author": "kammermannf",
+      "lines": 154,
+      "dirs": []
+    },
+    {
+      "date": "2015-04-24",
+      "author": "bovetl",
+      "lines": 1123,
+      "dirs": [
+        "player",
+        "log",
+        "exchange",
+        "timing"
+      ]
+    },
+    {
+      "date": "2015-05-01",
+      "author": "kammermannf",
+      "lines": 41,
+      "dirs": []
+    },
+    {
+      "date": "2015-05-05",
+      "author": "bovetl",
+      "lines": 566,
+      "dirs": []
+    },
+    {
+      "date": "2015-05-13",
+      "author": "webermarca",
+      "lines": 602,
+      "dirs": []
+    },
+    {
+      "date": "2015-05-18",
+      "author": "ljucam",
+      "lines": 261,
+      "dirs": []
+    },
+    {
+      "date": "2015-05-19",
+      "author": "bovetl",
+      "lines": 17,
+      "dirs": []
+    },
+    {
+      "date": "2015-05-22",
+      "author": "ljucam",
+      "lines": 32,
+      "dirs": []
+    }
+  ]
+
+  // create a data set with groups
+  var names = ['bovetl', 'webermarca',  'kammermannf','ljucam'];
+  var groups = new vis.DataSet();
+  for (var g = 0; g < groupCount; g++) {
+    groups.add({id: g, content: names[g]});
+  }
+
+  // create a dataset with items
+  var items = new vis.DataSet();
+
+  for (var i = 0; i < data.length; i++) {
+    commit = data[i]
+    if(names.indexOf(commit.author) != -1) {
+      var size = commit.lines / 50
+      size = Math.max(size, 3)
+      size = Math.min(size, 20)
+      console.log(size)
+      items.add({
+        id: i,
+        group: names.indexOf(commit.author),
+        content: '<div title="'+commit.lines+'" class="vis-item vis-dot commit vis-readonly" style="top: -9px; left: 4px; border-color: red; border-radius:20px; border-width:'+size+'px"></div>',
+        start: moment(commit.date),
+        type: 'box',
+        className: 'commit'
+      });
+      for(var j=0; j<commit.dirs.length; j++) {
+        dir = commit.dirs[j];
+        items.add({
+          id: dir,
+          group: names.indexOf(commit.author),
+          content: dir,
+          start: moment(commit.date),
+          type: 'box'
+        });
+
+      }
+    }
+  }
+
+  // create visualization
+  var container = document.getElementById('visualization');
+  var options = {
+    groupOrder: 'content'  // groupOrder can be a property name or a sorting function
+  };
+
+  var timeline = new vis.Timeline(container);
+  timeline.setOptions(options);
+  timeline.setGroups(groups);
+  timeline.setItems(items);
+
+</script>
+<style>
+.vis-item.commit {
+  background-color: transparent;
+  border-color: transparent;
+}
+</style>
+</body>
+</html>
